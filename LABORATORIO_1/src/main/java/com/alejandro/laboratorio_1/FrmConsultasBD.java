@@ -7,8 +7,12 @@ package com.alejandro.laboratorio_1;
 import DAO.Personas;
 import Entidades.Persona;
 import com.alejandro.BD.ConexionAMYSQL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmConsultasBD extends javax.swing.JFrame {
 
+    ConexionAMYSQL con = new ConexionAMYSQL();
+    Connection conexion = con.getConecction();
 
     /**
      * Creates new form FrmConsultasBD
@@ -50,6 +56,7 @@ public class FrmConsultasBD extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,8 +123,18 @@ public class FrmConsultasBD extends javax.swing.JFrame {
         });
 
         jButton4.setText("Modificar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Delete");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -134,24 +151,25 @@ public class FrmConsultasBD extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                     .addComponent(txtEdad)
                     .addComponent(txtEmail)
                     .addComponent(txtNumeroDeTelefono))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 16, Short.MAX_VALUE)
+                .addGap(0, 56, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
             .addGroup(layout.createSequentialGroup()
@@ -169,7 +187,8 @@ public class FrmConsultasBD extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -202,96 +221,126 @@ public class FrmConsultasBD extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       ConexionAMYSQL ClaseDeConexion = new ConexionAMYSQL();
-        
+        ConexionAMYSQL ClaseDeConexion = new ConexionAMYSQL();
+
         ClaseDeConexion.getConecction();
-        
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         String titulos[] = {"Nombre","Edad","Email","NumeroDeTelefono"};
+        String titulos[] = {"Nombre", "Edad", "Email", "NumeroDeTelefono"};
         //Ejemplo de Arreglo
         Double numero[] = new Double[3];
-        
-        
-        
-        DefaultTableModel df = new DefaultTableModel(null,titulos);
-        
+
+        DefaultTableModel df = new DefaultTableModel(null, titulos);
+
         Personas es = new Personas();
-      
-        ArrayList <Persona> listar = es.ListadoPersonas();
-        
+
+        ArrayList<Persona> listar = es.ListadoPersonas();
+
         Iterator iterador = listar.iterator();
-        
+
         String fila[] = new String[4];
-        
-        
-        while(iterador.hasNext()){
-            
-            Persona estBucle = (Persona)iterador.next();
-            
+
+        while (iterador.hasNext()) {
+
+            Persona estBucle = (Persona) iterador.next();
+
             fila[0] = estBucle.getNombre();
             fila[1] = estBucle.getEdad();
             fila[2] = estBucle.getEmail();
             fila[3] = estBucle.getNumeroDeTelefono();
             df.addRow(fila);
-            
+
         }
-        
+
         TblPersonas.setModel(df);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
-     public void cargar(){
-      
-      String titulos[] = {"Nombre","Edad","Email","NumeroDeTelefono"};
+    public void limpiar() {
+        txtNombre.setText(null);
+        txtEdad.setText(null);
+        txtEmail.setText(null);
+        txtNumeroDeTelefono.setText(null);
+
+    }
+
+    public void cargar() {
+
+        String titulos[] = {"Nombre", "Edad", "Email", "NumeroDeTelefono"};
         //Ejemplo de Arreglo
         Double numero[] = new Double[3];
-        
-        
-        
-        DefaultTableModel df = new DefaultTableModel(null,titulos);
-        
-       Personas es = new Personas();
-      
-        ArrayList <Persona> listar = es.ListadoPersonas();
-        
+
+        DefaultTableModel df = new DefaultTableModel(null, titulos);
+
+        Personas es = new Personas();
+
+        ArrayList<Persona> listar = es.ListadoPersonas();
+
         Iterator iterador = listar.iterator();
-        
+
         String fila[] = new String[4];
-        
-        
-        while(iterador.hasNext()){
+
+        while (iterador.hasNext()) {
+
+            Persona estBucle = (Persona) iterador.next();
+
             
-            Persona estBucle = (Persona)iterador.next();
-     
             fila[0] = estBucle.getNombre();
             fila[1] = estBucle.getEdad();
             fila[2] = estBucle.getEmail();
             fila[3] = estBucle.getNumeroDeTelefono();
             df.addRow(fila);
-            
+
         }
-        
+
         TblPersonas.setModel(df);
-      
-  }
-    
-     
-     
+
+        limpiar();
+    }
+
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      
+
         Persona es = new Persona();
         Personas esDao = new Personas();
-        
+
+       
         es.setNombre(txtNombre.getText());
-        es.setEdad (txtEdad.getText());
+        es.setEdad(txtEdad.getText());
         es.setEmail(txtEmail.getText());
         es.setNumeroDeTelefono(txtNumeroDeTelefono.getText());
         esDao.AddPersonas(es);
         cargar();
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+      int fila = TblPersonas.getSelectedRow();
+
+        int id = Integer.parseInt(this.TblPersonas.getValueAt(fila, 0).toString());
+        String nom = TblPersonas.getValueAt(fila, 1).toString();
+        String edad = TblPersonas.getValueAt(fila, 2).toString();
+        String email = TblPersonas.getValueAt(fila, 3).toString();
+        String numt = TblPersonas.getValueAt(fila, 4).toString();
+
+        try {
+            PreparedStatement actu = conexion.prepareCall("UPDATE contacto SET Nombre='" +nom+ "',Edad='" +edad+ "',Email='" + email + "',NumeroDeTelefono='" +numt+ "' WHERE IdContacto = '" +id+ "'");
+            actu.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e + "No se logro actualizar el dato");
+        }
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -343,6 +392,7 @@ public class FrmConsultasBD extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumeroDeTelefono;
     // End of variables declaration//GEN-END:variables

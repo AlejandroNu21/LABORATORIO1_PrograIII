@@ -18,8 +18,8 @@ public class ConexionAMYSQL {
     try {
         
         String url = "jdbc:mysql://localhost:3306/lab";
-        String user = "Nuñez";
-        String password ="Alexxkr2120sv";
+        String user = "josue";
+        String password ="ajsj1";
         
         ConnectionBD=DriverManager.getConnection(url,user,password);
         System.out.println("Conexion Exitosa");
