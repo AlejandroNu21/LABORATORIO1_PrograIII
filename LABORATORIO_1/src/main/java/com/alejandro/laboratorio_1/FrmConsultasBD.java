@@ -11,6 +11,7 @@ import static com.mysql.cj.protocol.ExportControlled.enabled;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
@@ -347,55 +348,56 @@ public class FrmConsultasBD extends javax.swing.JFrame {
     void Actualizar() {
 
         int fila = TblPersonas.getSelectedRow();
-        this.id = TblPersonas.getValueAt(fila, 0).toString();
-        String nom = TblPersonas.getValueAt(fila, 1).toString();
-        String edad = TblPersonas.getValueAt(fila, 2).toString();
-        String email = TblPersonas.getValueAt(fila, 3).toString();
-        String numt = TblPersonas.getValueAt(fila, 4).toString();
+
+        String nom = TblPersonas.getValueAt(fila, 0).toString();
+        String edad = TblPersonas.getValueAt(fila, 1).toString();
+        String email = TblPersonas.getValueAt(fila, 2).toString();
+        String numt = TblPersonas.getValueAt(fila, 3).toString();
 
         try {
-            PreparedStatement actu = conexion.prepareCall("UPDATE contacto SET Nombre='" + nom + "',Edad='" + edad + "',Email='" + email + "',NumeroDeTelefono='" + numt + "' WHERE IdContacto = '" + id + "'");
+            PreparedStatement actu = conexion.prepareCall("UPDATE contactos SET Nombre='" + nom + "',Edad='" + edad + "',Email='" + email + "',NumeroDeTelefono='" + numt + "' WHERE IdContactos = '" + id + "'");
             actu.executeUpdate();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e + "No se logro actualizar el dato");
         }
     }
-    
-    /*void Eliminar(){
-        
+
+    void Eliminar() {
+
         int fila;
         fila = TblPersonas.getSelectedRow();
-        if(fila >=0){
-        String id = TblPersonas.getValueAt(fila, 0).toString();
-        String sql="DELETE FROM contacto WHERE idContacto=?";
+        if (fila >= 0) {
+            String id = TblPersonas.getValueAt(fila, 0).toString();
+            String sql = "DELETE FROM contactos WHERE idContactos=?";
             try {
-                PreparedStatement pst =conexion.prepareStatement(sql);
+                PreparedStatement pst = conexion.prepareStatement(sql);
                 pst.setString(1, id);
                 int recibe = pst.executeUpdate();
-                if(recibe>0){
-                JOptionPane.showMessageDialog(null, "Regristro eliminado");
-                cargar();
+                if (recibe > 0) {
+                    JOptionPane.showMessageDialog(null, "Regristro eliminado");
+                    cargar();
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e + "No se logro actualizar el dato");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione");
         }
-    }*/
+    }
 
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         Actualizar();
+       
 
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
-
-        //Eliminar();
+        Eliminar();
+         limpiar();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
