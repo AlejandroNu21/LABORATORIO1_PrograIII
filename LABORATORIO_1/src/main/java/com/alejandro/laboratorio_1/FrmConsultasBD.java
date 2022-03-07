@@ -373,7 +373,7 @@ public class FrmConsultasBD extends javax.swing.JFrame {
             PreparedStatement actu = conexion.prepareCall("UPDATE contactos SET Nombre='" + nom + "',Edad='" + edad + "',Email='" + email + "',NumeroDeTelefono='" + numt + "' WHERE IdContactos = '" + id + "'");
             actu.executeUpdate();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e + "No se logro actualizar el dato");
+            JOptionPane.showMessageDialog(null, e + "No se  actualizo el dato");
         }
     }
 
@@ -393,7 +393,7 @@ public class FrmConsultasBD extends javax.swing.JFrame {
                     cargar();
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e + "No se logro actualizar el dato");
+                JOptionPane.showMessageDialog(null, e + "No se  actualizo el dato");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Seleccione");
